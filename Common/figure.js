@@ -69,7 +69,7 @@ var numNodes = 16;
 var numAngles = 17;
 var angle = 0;
 
-var theta = [225, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
+var theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
 
 var numVertices = 24;
 
