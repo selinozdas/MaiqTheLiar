@@ -39,6 +39,8 @@ var tailUpperId = 11;
 var tailLowerId = 12;
 var mouthUpperId = 13;
 var mouthLowerId = 14;
+var rightEarId = 15;
+var leftEarId = 16;
 
 var colors= [];
 
