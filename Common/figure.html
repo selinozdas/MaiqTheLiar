@@ -9,11 +9,11 @@ varying vec4 fColor;
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 
-void main() 
+void main()
 {
     fColor = vColor;
     gl_Position = projectionMatrix * modelViewMatrix * vPosition;
-} 
+}
 </script>
 
 <script id="fragment-shader" type="x-shader/x-fragment">
@@ -22,10 +22,10 @@ precision mediump float;
 
 varying  vec4 fColor;
 
-void main() 
-{ 
+void main()
+{
     gl_FragColor = fColor;
-} 
+}
 </script>
 
 
@@ -119,6 +119,19 @@ tailLower -180 <input id="slide" type="range"
  180
 </div><br/>
 
+<div id="slider13">
+tailLower -180 <input id="slide" type="range"
+ min="0" max="180" step="1" value="0"
+  />
+ 180
+</div><br/>
+
+<div id="slider14">
+tailLower -180 <input id="slide" type="range"
+ min="-180" max="0" step="1" value="0"
+  />
+ 180
+</div><br/>
 <body>
 <canvas id="gl-canvas" width="512"" height="512"
 Oops ... your browser doesn't support the HTML5 canvas element

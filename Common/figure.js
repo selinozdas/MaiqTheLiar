@@ -59,15 +59,15 @@ var tailLowerHeight = 3.0;
 var tailUpperWidth = 0.5;
 var tailLowerWidth = 0.5;
 var mouthUpperHeigth = 1.0;
-var mouthLowerHeight = 0.5;
-var mouthUpperWidth = 1.0;
-var mouthLowerWidth = 0.5;
+var mouthLowerHeight = 1.0;
+var mouthUpperWidth = 0.7;
+var mouthLowerWidth = 0.3;
 
 var numNodes = 16;
 var numAngles = 17;
 var angle = 0;
 
-var theta = [225, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 0];
+var theta = [225, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
 
 var numVertices = 24;
 
@@ -203,14 +203,14 @@ function initNodes(Id) {
     break;
 
     case mouthUpperId:
-      m = translate(torsoWidth -4, torsoHeight-2, 0.0);
-      m = mult(m, rotate(theta[mouthUpperId], 1, 0, 0));
-      figure[mouthUpperId] = createNode( m, mouthUpper, null, mouthLowerId );
+      m = translate(torsoWidth -4.5, torsoHeight-1.5, 0.0);
+      m = mult(m, rotate(theta[mouthUpperId], 0, 0, -1));
+      figure[mouthUpperId] = createNode( m, mouthUpper, mouthLowerId, null );
       break;
 
     case mouthLowerId:
-      m = translate(torsoWidth -10, torsoHeight-2, 0.0);
-      m = mult(m, rotate(theta[mouthLowerId], 1, 0, 0));
+      m = translate(torsoWidth -4.5, torsoHeight-1.7, 0.0);
+      m = mult(m, rotate(theta[mouthLowerId], 0, 0, 1));
       figure[mouthLowerId] = createNode( m, mouthLower, null, null );
       break;
 	}
@@ -474,6 +474,14 @@ window.onload = function init() {
     document.getElementById("slider12").onchange = function() {
          theta[tailLowerId] = event.srcElement.value;
          initNodes(tailLowerId);
+    };
+    document.getElementById("slider13").onchange = function() {
+         theta[mouthUpperId] = event.srcElement.value;
+         initNodes(mouthUpperId);
+    };
+    document.getElementById("slider14").onchange = function() {
+         theta[mouthLowerId] = event.srcElement.value;
+         initNodes(mouthLowerId);
     };
     for(i=0; i<numNodes; i++) initNodes(i);
 
