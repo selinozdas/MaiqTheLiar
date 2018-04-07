@@ -58,7 +58,10 @@ var tailUpperHeight = 1.0;
 var tailLowerHeight = 3.0;
 var tailUpperWidth = 0.5;
 var tailLowerWidth = 0.5;
-
+var mouthUpperHeigth = 0.4;
+var mouthLowerHeight = 0.2;
+var mouthUpperWidth = 0.3;
+var mouthLowerWidth = 0.2;
 
 var numNodes = 14;
 var numAngles = 15;
@@ -125,7 +128,7 @@ function initNodes(Id) {
 	m = mult(m, rotate(theta[head1Id], 1, 0, 0))
 	m = mult(m, rotate(theta[head2Id], 0, 1, 0));
     m = mult(m, translate(0.0, -0.5*headHeight, 0.0));
-    figure[headId] = createNode( m, head, leftUpperArmId, null);
+    figure[headId] = createNode( m, head, leftUpperArmId, mouthUpperId);
     break;
 
 
