@@ -305,16 +305,7 @@ function tailLower() {
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
 }
-var vertexColors = [
-    vec4( 0.0, 0.0, 0.0, 1.0 ),  // black
-    vec4( 1.0, 0.0, 0.0, 1.0 ),  // red
-    vec4( 1.0, 1.0, 0.0, 1.0 ),  // yellow
-    vec4( 0.0, 1.0, 0.0, 1.0 ),  // green
-    vec4( 0.0, 0.0, 1.0, 1.0 ),  // blue
-    vec4( 1.0, 0.0, 1.0, 1.0 ),  // magenta
-    vec4( 1.0, 1.0, 1.0, 1.0 ),  // white
-    vec4( 0.0, 1.0, 1.0, 1.0 )   // cyan
-];
+
 var vertexColors = [
     vec4( 0.0, 0.0, 0.0, 1.0 ),  // black
     vec4( 1.0, 0.0, 0.0, 1.0 ),  // red
@@ -329,11 +320,11 @@ var vertexColors = [
 function quad(a, b, c, d) {
 	 colors.push(vertexColors[a]);
      pointsArray.push(vertices[a]);
-	 colors.push(vertexColors[b]);
+	 colors.push(vertexColors[a]);
      pointsArray.push(vertices[b]);
-	 colors.push(vertexColors[c]);
+	colors.push(vertexColors[a]);
      pointsArray.push(vertices[c]);
-	 colors.push(vertexColors[d]);
+	 colors.push(vertexColors[a]);
      pointsArray.push(vertices[d]);
 }
 
