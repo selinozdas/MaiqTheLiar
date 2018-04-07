@@ -53,18 +53,18 @@ var lowerLegWidth  = 0.5;
 var lowerLegHeight = 2.0;
 var upperLegHeight = 3.0;
 var headHeight = 1.5;
-var headWidth = 1.0;
+var headWidth = 1.5;
 var tailUpperHeight = 1.0;
 var tailLowerHeight = 3.0;
 var tailUpperWidth = 0.5;
 var tailLowerWidth = 0.5;
-var mouthUpperHeigth = 0.4;
-var mouthLowerHeight = 0.2;
-var mouthUpperWidth = 0.3;
-var mouthLowerWidth = 0.2;
+var mouthUpperHeigth = 1.0;
+var mouthLowerHeight = 0.5;
+var mouthUpperWidth = 1.0;
+var mouthLowerWidth = 0.5;
 
-var numNodes = 14;
-var numAngles = 15;
+var numNodes = 16;
+var numAngles = 17;
 var angle = 0;
 
 var theta = [225, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 0];
@@ -203,13 +203,13 @@ function initNodes(Id) {
     break;
 
     case mouthUpperId:
-      m = translate(0.5, 0.5, 0.0);
+      m = translate(torsoWidth -4, torsoHeight-2, 0.0);
       m = mult(m, rotate(theta[mouthUpperId], 1, 0, 0));
       figure[mouthUpperId] = createNode( m, mouthUpper, null, mouthLowerId );
       break;
 
     case mouthLowerId:
-      m = translate(0.5, 0.5, 0.0);
+      m = translate(torsoWidth -10, torsoHeight-2, 0.0);
       m = mult(m, rotate(theta[mouthLowerId], 1, 0, 0));
       figure[mouthLowerId] = createNode( m, mouthLower, null, null );
       break;
