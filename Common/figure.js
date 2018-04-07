@@ -95,7 +95,7 @@ function createNode(transform, render, sibling, child){
     sibling: sibling,
     child: child
     }
-	
+
     return node;
 }
 
@@ -133,10 +133,9 @@ function initNodes(Id) {
     break;
 
 
-
 	case leftLowerArmId:
 
-	m = translate(0, 4.0, 0.0);
+	m = translate(0, 3.0, 0.0);
     m = mult(m, rotate(theta[leftLowerArmId], 1, 0, 0));
     figure[leftLowerArmId] = createNode( m, leftLowerArm, null, null );
     break;
@@ -157,7 +156,7 @@ function initNodes(Id) {
 
 	case rightLowerArmId:
 
-    m =translate(0, 4.0, 0.0);
+    m =translate(0, 3.0, 0.0);
     m = mult(m, rotate(theta[rightLowerArmId], 1, 0, 0));
     figure[rightLowerArmId] = createNode( m, rightLowerArm, null, null );
     break;
@@ -171,7 +170,7 @@ function initNodes(Id) {
 
     case leftLowerLegId:
 
-    m = translate(0.0, upperLegHeight+1, 0.0);
+    m = translate(0.0, 3.0, 0.0);
     m = mult(m, rotate(theta[leftLowerLegId], 1, 0, 0));
     figure[leftLowerLegId] = createNode( m, leftLowerLeg, null, null );
     break;
@@ -179,19 +178,19 @@ function initNodes(Id) {
 
     case rightLowerLegId:
 
-    m = translate(0.0, upperLegHeight+1, 0.0);
+    m = translate(0.0, 3.0, 0.0);
     m = mult(m, rotate(theta[rightLowerLegId], 1, 0, 0));
     figure[rightLowerLegId] = createNode( m, rightLowerLeg, null, null );
     break;
 
     case tailUpperId:
-    m = translate(-torsoWidth +3, tailUpperHeight, 0.0);
+    m = translate(-2.5, tailUpperHeight, 0.0);
     m = mult(m, rotate(theta[tailUpperId], 1, 0, 0));
     figure[tailUpperId] = createNode( m, tailUpper, null, tailLowerId );
     break;
 
     case tailLowerId:
-    m = translate(0.0, tailLowerHeight, 0.0);
+    m = translate(-0.5, 0.5, 0.0);
     m = mult(m, rotate(theta[tailLowerId], 1, 0, 0));
     figure[tailLowerId] = createNode( m, tailLower, null, null );
     break;
@@ -378,7 +377,7 @@ window.onload = function init() {
     var vPosition = gl.getAttribLocation( program, "vPosition" );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
-	
+
 	cBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, cBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(colors), gl.STATIC_DRAW );
@@ -386,7 +385,7 @@ window.onload = function init() {
     var vColor = gl.getAttribLocation( program, "vColor" );
     gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vColor );
-	
+
 
         document.getElementById("slider0").onchange = function() {
         theta[torsoId ] = event.srcElement.value;
