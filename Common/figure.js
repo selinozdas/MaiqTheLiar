@@ -37,6 +37,9 @@ var rightUpperLegId = 8;
 var rightLowerLegId = 9;
 var tailUpperId = 11;
 var tailLowerId = 12;
+var mouthUpperId = 13;
+var mouthLowerId = 14;
+
 var colors= [];
 
 var torsoHeight = 2.0;
@@ -56,11 +59,12 @@ var tailLowerHeight = 3.0;
 var tailUpperWidth = 0.5;
 var tailLowerWidth = 0.5;
 
-var numNodes = 13;
-var numAngles = 14;
+
+var numNodes = 14;
+var numAngles = 15;
 var angle = 0;
 
-var theta = [225, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0];
+var theta = [225, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 0];
 
 var numVertices = 24;
 
@@ -195,6 +199,17 @@ function initNodes(Id) {
     figure[tailLowerId] = createNode( m, tailLower, null, null );
     break;
 
+    case mouthUpperId:
+      m = translate(0.5, 0.5, 0.0);
+      m = mult(m, rotate(theta[mouthUpperId], 1, 0, 0));
+      figure[mouthUpperId] = createNode( m, mouthUpper, null, mouthLowerId );
+      break;
+
+    case mouthLowerId:
+      m = translate(0.5, 0.5, 0.0);
+      m = mult(m, rotate(theta[mouthLowerId], 1, 0, 0));
+      figure[mouthLowerId] = createNode( m, mouthLower, null, null );
+      break;
 	}
 }
 
@@ -301,6 +316,22 @@ function tailLower() {
 
     instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * tailLowerHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(tailLowerWidth, tailLowerHeight, tailLowerWidth) )
+    gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+    for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+}
+
+function mouthUpper() {
+
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * mouthUpperHeigth, 0.0) );
+	instanceMatrix = mult(instanceMatrix, scale4(mouthUpperWidth, mouthUpperHeigth, mouthUpperWidth) )
+    gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+    for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+}
+
+function mouthLower() {
+
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * mouthLowerHeight, 0.0) );
+	instanceMatrix = mult(instanceMatrix, scale4(mouthLowerWidth, mouthLowerHeight, mouthLowerWidth) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
 }
