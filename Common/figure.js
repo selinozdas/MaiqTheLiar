@@ -69,7 +69,7 @@ var numNodes = 16;
 var numAngles = 17; //is this necessary?
 var angle = 0;
 
-var Frames = [];
+var frames = [];
 
 var theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
 
@@ -376,8 +376,8 @@ function cube()
     quad( 5, 4, 0, 1 );
 }
 function saveFrame(){
-	for(i=0; i < frames.length ; i++)
-		frames.add(theta[id]);
+	for(i=0; i < theta.length ; i++)
+		frames.push(theta[i]);
 	
 	window.alert("Frame is saved");
 }
@@ -385,8 +385,17 @@ function clearFrame(){
 	frames=[];
 	window.alert("Frames are cleared");
 }
-
 //TODO saveFrames to File
+function saveFramesToFile(){
+	var stringFrames= "";
+	for(i=0; i< frames.length; i++)
+        stringFrames= stringFrames+  "" + frames[i] + " ";
+	var a = document.createElement('a');
+    a.href = 'data:text/plain;base64,' + btoa(stringFrames);
+    a.download = 'frames.txt';
+    a.click();
+}
+
 //TODO animate
 //TODO walk
 //TODO jump
@@ -507,6 +516,9 @@ window.onload = function init() {
 	}
 	document.getElementById("clearButton").onclick = function() {
 		clearFrame();
+	}
+	document.getElementById("saveFileButton").onclick = function() {
+		saveFramesToFile();
 	}
     for(i=0; i<numNodes; i++) initNodes(i);
 
