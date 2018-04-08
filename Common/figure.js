@@ -398,7 +398,6 @@ function saveFramesToFile(){
 //TODO animate
 //TODO walk
 //TODO jump
-//TODO load 
 function loadFramesFromFile(file){
 	//clear current frame 
 	frames=[];
@@ -417,6 +416,34 @@ function loadFramesFromFile(file){
         reader.readAsText(file);
 	//push to frames array
 }
+
+function animate() {
+	var currentFrame = [];
+	for(i=0; i < frames.length; i++)
+	{
+		//load degrees for one frame
+	for(j = 0; j < theta.length; j++)
+	{
+		currentFrame.push(frames[i]);
+		i++
+	}
+	
+	//Load the initial frame values as a starter 
+	if(i==theta.length)
+	{
+		for(k = 0; k < currentFrame.length; k++){
+			theta[k] = currentFrame[k];
+			initNodes(k);
+		}
+	}
+	//Then, change to other frame in a smooth way 
+	while (//frames are not equal yet){
+		//change frame a  bit closer to next frame and call init node	
+	}		
+		
+	}
+}
+
 
 window.onload = function init() {
 
@@ -540,7 +567,9 @@ window.onload = function init() {
 	document.getElementById("loadFile").onchange = function() {
 		loadFramesFromFile(this.files[0]);
 	}
-	
+	document.getElementById("animateButton").onclick = function() {
+		animate();
+	}
     for(i=0; i<numNodes; i++) initNodes(i);
 
     render();
