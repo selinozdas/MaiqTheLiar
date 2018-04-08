@@ -5,7 +5,6 @@ var program;
 
 var projectionMatrix;
 var modelViewMatrix;
-
 var instanceMatrix;
 
 var modelViewMatrixLoc;
@@ -21,7 +20,6 @@ var vertices = [
     vec4( 0.5,  0.5, -0.5, 1.0 ),
     vec4( 0.5, -0.5, -0.5, 1.0 )
 ];
-
 
 var torsoId = 0;
 var headId  = 1;
@@ -66,26 +64,19 @@ var mouthUpperWidth = 0.7;
 var mouthLowerWidth = 0.3;
 
 var numNodes = 16;
-var numAngles = 17; //is this necessary?
+var numAngles = 17; //is this necessary? -ustad kedi // I don't wanna, I don't think so! -Kool thing sitting with a kitty
 var angle = 0;
 
 var frames = [];
-
 var theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
-
 var numVertices = 24;
-
 var stack = [];
-
 var figure = [];
 
 for( var i=0; i<numNodes; i++) figure[i] = createNode(null, null, null, null);
 
-var vBuffer;
-var modelViewLoc;
-
+var vBuffer, modelViewLoc;
 var pointsArray = [];
-
 //-------------------------------------------
 
 function scale4(a, b, c) {
@@ -98,7 +89,6 @@ function scale4(a, b, c) {
 
 //--------------------------------------------
 
-
 function createNode(transform, render, sibling, child){
     var node = {
     transform: transform,
@@ -109,7 +99,6 @@ function createNode(transform, render, sibling, child){
 
     return node;
 }
-
 
 function initNodes(Id) {
 
@@ -365,7 +354,6 @@ function quad(a, b, c, d) {
      pointsArray.push(vertices[d]);
 }
 
-
 function cube()
 {
     quad( 1, 0, 3, 2 );
@@ -375,12 +363,14 @@ function cube()
     quad( 4, 5, 6, 7 );
     quad( 5, 4, 0, 1 );
 }
+
 function saveFrame(){
 	for(i=0; i < theta.length ; i++)
 		frames.push(theta[i]);
-	
+
 	window.alert("Frame is saved");
 }
+
 function clearFrame(){
 	frames=[];
 	window.alert("Frames are cleared");
@@ -396,10 +386,14 @@ function saveFramesToFile(){
     a.click();
 }
 //TODO animate
+
+function sickCatmoves(){
+
+}
 //TODO walk
 //TODO jump
 function loadFramesFromFile(file){
-	//clear current frame 
+	//clear current frame
 	frames=[];
 	//read file
 	var reader = new FileReader();
@@ -408,7 +402,7 @@ function loadFramesFromFile(file){
             window.alert(this.result);
             frameM = [];
             var thetas = this.result.split(' ');
-            
+
             for (var degree = 0; degree < thetas.length-1; degree++) {
                 frames.push(thetas[degree]);
             }
@@ -427,8 +421,8 @@ function animate() {
 		currentFrame.push(frames[i]);
 		i++
 	}
-	
-	//Load the initial frame values as a starter 
+
+	//Load the initial frame values as a starter
 	if(i==theta.length)
 	{
 		for(k = 0; k < currentFrame.length; k++){
@@ -436,14 +430,13 @@ function animate() {
 			initNodes(k);
 		}
 	}
-	//Then, change to other frame in a smooth way 
-	while (//frames are not equal yet){
-		//change frame a  bit closer to next frame and call init node	
-	}		
-		
+	//Then, change to other frame in a smooth way (a waaay smootheeeer)
+	//while (//frames are not equal yet){
+		//change frame a  bit closer to next frame and call init node
+//	}
+
 	}
 }
-
 
 window.onload = function init() {
 
