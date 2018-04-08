@@ -42,8 +42,6 @@ var mouthLowerId = 14;
 var rightEarId = 15;
 var leftEarId = 16;
 
-var left=0.0;
-var up = 0.0;
 var colors= [];
 
 var torsoHeight = 2.0;
@@ -124,7 +122,7 @@ function initNodes(Id) {
     switch(Id) {
 
     case torsoId:
-    m = translate(left, up, 0.0);
+
     m = rotate(theta[torsoId], 0, 1, 0 );
     figure[torsoId] = createNode( m, torso, null, headId );
     break;
@@ -239,7 +237,7 @@ function traverse(Id) {
 
 function torso() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(left, 0.5*torsoHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5*torsoHeight, 0.0) );
     instanceMatrix = mult(instanceMatrix, scale4( torsoWidth, torsoHeight, torsoWidth));
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -247,7 +245,7 @@ function torso() {
 
 function head() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(left, 0.5 * headHeight, 0.0 ));
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * headHeight, 0.0 ));
 	instanceMatrix = mult(instanceMatrix, scale4(headWidth, headHeight, headWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -255,7 +253,7 @@ function head() {
 
 function leftUpperArm() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * upperArmHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * upperArmHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(upperArmWidth, upperArmHeight, upperArmWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -263,7 +261,7 @@ function leftUpperArm() {
 
 function leftLowerArm() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * lowerArmHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * lowerArmHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(lowerArmWidth, lowerArmHeight, lowerArmWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -271,7 +269,7 @@ function leftLowerArm() {
 
 function rightUpperArm() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * upperArmHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * upperArmHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(upperArmWidth, upperArmHeight, upperArmWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -279,7 +277,7 @@ function rightUpperArm() {
 
 function rightLowerArm() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * lowerArmHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * lowerArmHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(lowerArmWidth, lowerArmHeight, lowerArmWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -287,7 +285,7 @@ function rightLowerArm() {
 
 function  leftUpperLeg() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * upperLegHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * upperLegHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(upperLegWidth, upperLegHeight, upperLegWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -295,7 +293,7 @@ function  leftUpperLeg() {
 
 function leftLowerLeg() {
 
-    instanceMatrix = mult(modelViewMatrix, translate( -left, 0.5 * lowerLegHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate( 0.0, 0.5 * lowerLegHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(lowerLegWidth, lowerLegHeight, lowerLegWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -303,7 +301,7 @@ function leftLowerLeg() {
 
 function rightUpperLeg() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * upperLegHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * upperLegHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(upperLegWidth, upperLegHeight, upperLegWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -311,7 +309,7 @@ function rightUpperLeg() {
 
 function rightLowerLeg() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * lowerLegHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * lowerLegHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(lowerLegWidth, lowerLegHeight, lowerLegWidth) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -319,7 +317,7 @@ function rightLowerLeg() {
 
 function tailUpper() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(left, 0.5 * tailUpperHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * tailUpperHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(tailUpperWidth, tailUpperHeight, tailUpperWidth) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -327,7 +325,7 @@ function tailUpper() {
 
 function tailLower() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(left, 0.5 * tailLowerHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * tailLowerHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(tailLowerWidth, tailLowerHeight, tailLowerWidth) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -335,7 +333,7 @@ function tailLower() {
 
 function mouthUpper() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0, 0.5 * mouthUpperHeigth, -2*left) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * mouthUpperHeigth, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(mouthUpperWidth, mouthUpperHeigth, mouthUpperWidth) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -343,7 +341,7 @@ function mouthUpper() {
 
 function mouthLower() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0, 0.5 * mouthLowerHeight, -2*left) );
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * mouthLowerHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(mouthLowerWidth, mouthLowerHeight, mouthLowerWidth) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -679,8 +677,7 @@ window.onload = function init() {
 		firstTime= true;
 	}
   document.getElementById("moveLeft").onclick = function() {
-    left = 3.0;
-    initNodes(torsoId);
+    left = 1.0;
   }
     for(i=0; i<numNodes; i++) initNodes(i);
 
