@@ -5,6 +5,7 @@ var program;
 
 var projectionMatrix;
 var modelViewMatrix;
+
 var instanceMatrix;
 
 var modelViewMatrixLoc;
@@ -20,6 +21,7 @@ var vertices = [
     vec4( 0.5,  0.5, -0.5, 1.0 ),
     vec4( 0.5, -0.5, -0.5, 1.0 )
 ];
+
 
 var torsoId = 0;
 var headId  = 1;
@@ -62,21 +64,30 @@ var mouthUpperHeigth = 1.0;
 var mouthLowerHeight = 1.0;
 var mouthUpperWidth = 0.7;
 var mouthLowerWidth = 0.3;
-
+var animationPlays= false;
+var firstTime =false;
+var loadNewFrames =true;
 var numNodes = 16;
-var numAngles = 17; //is this necessary? -ustad kedi // I don't wanna, I don't think so! -Kool thing sitting with a kitty
+var numAngles = 17; //is this necessary?
 var angle = 0;
 
 var frames = [];
+
 var theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
+
 var numVertices = 24;
+
 var stack = [];
+
 var figure = [];
 
 for( var i=0; i<numNodes; i++) figure[i] = createNode(null, null, null, null);
+var calculated=false;
+var vBuffer;
+var modelViewLoc;
 
-var vBuffer, modelViewLoc;
 var pointsArray = [];
+
 //-------------------------------------------
 
 function scale4(a, b, c) {
@@ -89,6 +100,7 @@ function scale4(a, b, c) {
 
 //--------------------------------------------
 
+
 function createNode(transform, render, sibling, child){
     var node = {
     transform: transform,
@@ -99,6 +111,7 @@ function createNode(transform, render, sibling, child){
 
     return node;
 }
+
 
 function initNodes(Id) {
 
@@ -354,6 +367,7 @@ function quad(a, b, c, d) {
      pointsArray.push(vertices[d]);
 }
 
+
 function cube()
 {
     quad( 1, 0, 3, 2 );
@@ -363,14 +377,12 @@ function cube()
     quad( 4, 5, 6, 7 );
     quad( 5, 4, 0, 1 );
 }
-
 function saveFrame(){
 	for(i=0; i < theta.length ; i++)
 		frames.push(theta[i]);
-
+	
 	window.alert("Frame is saved");
 }
-
 function clearFrame(){
 	frames=[];
 	window.alert("Frames are cleared");
@@ -386,14 +398,10 @@ function saveFramesToFile(){
     a.click();
 }
 //TODO animate
-
-function sickCatmoves(){
-
-}
 //TODO walk
 //TODO jump
 function loadFramesFromFile(file){
-	//clear current frame
+	//clear current frame 
 	frames=[];
 	//read file
 	var reader = new FileReader();
@@ -402,7 +410,7 @@ function loadFramesFromFile(file){
             window.alert(this.result);
             frameM = [];
             var thetas = this.result.split(' ');
-
+            
             for (var degree = 0; degree < thetas.length-1; degree++) {
                 frames.push(thetas[degree]);
             }
@@ -410,33 +418,63 @@ function loadFramesFromFile(file){
         reader.readAsText(file);
 	//push to frames array
 }
-
+var index= 0;
+var counter = 0;
+var difference=[];
+var currentFrame = [];
 function animate() {
-	var currentFrame = [];
-	for(i=0; i < frames.length; i++)
-	{
-		//load degrees for one frame
-	for(j = 0; j < theta.length; j++)
-	{
-		currentFrame.push(frames[i]);
-		i++
+	
+	//get frame
+	if(loadNewFrames){
+		currentFrame=[];
+		for(j = 0; j < theta.length; j++)
+		{
+			currentFrame.push(frames[index]);
+			index++;
+		}
+		loadNewFrames = false;
 	}
-
-	//Load the initial frame values as a starter
-	if(i==theta.length)
+	if(firstTime)
 	{
 		for(k = 0; k < currentFrame.length; k++){
 			theta[k] = currentFrame[k];
 			initNodes(k);
+			loadNewFrames= true;
+			firstTime=false;
 		}
+		
 	}
-	//Then, change to other frame in a smooth way (a waaay smootheeeer)
-	//while (//frames are not equal yet){
-		//change frame a  bit closer to next frame and call init node
-//	}
-
+	else
+	{
+		if(!calculated)
+		{
+			for(l = 0 ; l<theta.length; l++){
+				difference[l] = currentFrame[l] - theta[l];
+			}
+			calculated=true;
+		}
+		for(l = 0 ; l<theta.length; l++){
+			if(difference[l]!=0)
+				theta[l] = parseInt(theta[l]) + difference[l]/100.0;
+			initNodes(l);
+		}
+		counter++;
+	}
+	if(counter>100 && index>=frames.length-1)
+	{
+		currentFrame=[];
+		animationPlays = false;
+		index=0;
+		counter = 0;
+	}
+	else if (counter>100)
+	{
+		currentFrame=[];
+		loadNewFrames = true;
+		counter=0;
 	}
 }
+
 
 window.onload = function init() {
 
@@ -561,7 +599,8 @@ window.onload = function init() {
 		loadFramesFromFile(this.files[0]);
 	}
 	document.getElementById("animateButton").onclick = function() {
-		animate();
+		animationPlays= true;
+		firstTime= true;
 	}
     for(i=0; i<numNodes; i++) initNodes(i);
 
@@ -570,7 +609,11 @@ window.onload = function init() {
 
 
 var render = function() {
-
+		if(animationPlays)
+		{
+			loadNewFrames=true;
+			animate();
+		}
         gl.clear( gl.COLOR_BUFFER_BIT );
         traverse(torsoId);
         requestAnimFrame(render);
