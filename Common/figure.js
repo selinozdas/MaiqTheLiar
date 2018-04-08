@@ -385,7 +385,7 @@ function clearFrame(){
 	frames=[];
 	window.alert("Frames are cleared");
 }
-//TODO saveFrames to File
+
 function saveFramesToFile(){
 	var stringFrames= "";
 	for(i=0; i< frames.length; i++)
@@ -395,11 +395,28 @@ function saveFramesToFile(){
     a.download = 'frames.txt';
     a.click();
 }
-
 //TODO animate
 //TODO walk
 //TODO jump
 //TODO load 
+function loadFramesFromFile(file){
+	//clear current frame 
+	frames=[];
+	//read file
+	var reader = new FileReader();
+	reader.onload = function (progressEvent) {
+            // Entire file
+            window.alert(this.result);
+            frameM = [];
+            var thetas = this.result.split(' ');
+            
+            for (var degree = 0; degree < thetas.length-1; degree++) {
+                frames.push(thetas[degree]);
+            }
+        };
+        reader.readAsText(file);
+	//push to frames array
+}
 
 window.onload = function init() {
 
@@ -520,6 +537,10 @@ window.onload = function init() {
 	document.getElementById("saveFileButton").onclick = function() {
 		saveFramesToFile();
 	}
+	document.getElementById("loadFile").onchange = function() {
+		loadFramesFromFile(this.files[0]);
+	}
+	
     for(i=0; i<numNodes; i++) initNodes(i);
 
     render();
