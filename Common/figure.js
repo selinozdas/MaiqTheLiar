@@ -66,8 +66,10 @@ var mouthUpperWidth = 0.7;
 var mouthLowerWidth = 0.3;
 
 var numNodes = 16;
-var numAngles = 17;
+var numAngles = 17; //is this necessary?
 var angle = 0;
+
+var Frames = [];
 
 var theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
 
@@ -373,7 +375,22 @@ function cube()
     quad( 4, 5, 6, 7 );
     quad( 5, 4, 0, 1 );
 }
+function saveFrame(){
+	for(i=0; i < frames.length ; i++)
+		frames.add(theta[id]);
+	
+	window.alert("Frame is saved");
+}
+function clearFrame(){
+	frames=[];
+	window.alert("Frames are cleared");
+}
 
+//TODO saveFrames to File
+//TODO animate
+//TODO walk
+//TODO jump
+//TODO load 
 
 window.onload = function init() {
 
@@ -485,6 +502,12 @@ window.onload = function init() {
          theta[mouthLowerId] = event.srcElement.value;
          initNodes(mouthLowerId);
     };
+	document.getElementById("saveButton").onclick = function() {
+		saveFrame();
+	}
+	document.getElementById("clearButton").onclick = function() {
+		clearFrame();
+	}
     for(i=0; i<numNodes; i++) initNodes(i);
 
     render();
