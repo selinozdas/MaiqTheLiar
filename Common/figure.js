@@ -42,6 +42,8 @@ var mouthLowerId = 14;
 var rightEarId = 15;
 var leftEarId = 16;
 
+var left=0.0;
+var up = 0.0;
 var colors= [];
 
 var torsoHeight = 2.0;
@@ -75,7 +77,7 @@ var tail = false;
 
 var frames = [];
 
-var theta = [330, 0, 175, 20, 175, 20, 165, 30, 165, 30, 0, 180, 0, 90, -90];
+var theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
 
 var numVertices = 24;
 
@@ -122,7 +124,7 @@ function initNodes(Id) {
     switch(Id) {
 
     case torsoId:
-
+    m = translate(left, up, 0.0);
     m = rotate(theta[torsoId], 0, 1, 0 );
     figure[torsoId] = createNode( m, torso, null, headId );
     break;
@@ -237,7 +239,7 @@ function traverse(Id) {
 
 function torso() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5*torsoHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(left, 0.5*torsoHeight, 0.0) );
     instanceMatrix = mult(instanceMatrix, scale4( torsoWidth, torsoHeight, torsoWidth));
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -245,7 +247,7 @@ function torso() {
 
 function head() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * headHeight, 0.0 ));
+    instanceMatrix = mult(modelViewMatrix, translate(left, 0.5 * headHeight, 0.0 ));
 	instanceMatrix = mult(instanceMatrix, scale4(headWidth, headHeight, headWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -253,7 +255,7 @@ function head() {
 
 function leftUpperArm() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * upperArmHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * upperArmHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(upperArmWidth, upperArmHeight, upperArmWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -261,7 +263,7 @@ function leftUpperArm() {
 
 function leftLowerArm() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * lowerArmHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * lowerArmHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(lowerArmWidth, lowerArmHeight, lowerArmWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -269,7 +271,7 @@ function leftLowerArm() {
 
 function rightUpperArm() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * upperArmHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * upperArmHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(upperArmWidth, upperArmHeight, upperArmWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -277,7 +279,7 @@ function rightUpperArm() {
 
 function rightLowerArm() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * lowerArmHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * lowerArmHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(lowerArmWidth, lowerArmHeight, lowerArmWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -285,7 +287,7 @@ function rightLowerArm() {
 
 function  leftUpperLeg() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * upperLegHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * upperLegHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(upperLegWidth, upperLegHeight, upperLegWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -293,7 +295,7 @@ function  leftUpperLeg() {
 
 function leftLowerLeg() {
 
-    instanceMatrix = mult(modelViewMatrix, translate( 0.0, 0.5 * lowerLegHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate( -left, 0.5 * lowerLegHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(lowerLegWidth, lowerLegHeight, lowerLegWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -301,7 +303,7 @@ function leftLowerLeg() {
 
 function rightUpperLeg() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * upperLegHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * upperLegHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(upperLegWidth, upperLegHeight, upperLegWidth) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -309,7 +311,7 @@ function rightUpperLeg() {
 
 function rightLowerLeg() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * lowerLegHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(-left, 0.5 * lowerLegHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(lowerLegWidth, lowerLegHeight, lowerLegWidth) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -317,7 +319,7 @@ function rightLowerLeg() {
 
 function tailUpper() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * tailUpperHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(left, 0.5 * tailUpperHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(tailUpperWidth, tailUpperHeight, tailUpperWidth) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -325,7 +327,7 @@ function tailUpper() {
 
 function tailLower() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * tailLowerHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(left, 0.5 * tailLowerHeight, 0.0) );
 	instanceMatrix = mult(instanceMatrix, scale4(tailLowerWidth, tailLowerHeight, tailLowerWidth) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -333,7 +335,7 @@ function tailLower() {
 
 function mouthUpper() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * mouthUpperHeigth, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0, 0.5 * mouthUpperHeigth, -2*left) );
 	instanceMatrix = mult(instanceMatrix, scale4(mouthUpperWidth, mouthUpperHeigth, mouthUpperWidth) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -341,7 +343,7 @@ function mouthUpper() {
 
 function mouthLower() {
 
-    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * mouthLowerHeight, 0.0) );
+    instanceMatrix = mult(modelViewMatrix, translate(0, 0.5 * mouthLowerHeight, -2*left) );
 	instanceMatrix = mult(instanceMatrix, scale4(mouthLowerWidth, mouthLowerHeight, mouthLowerWidth) )
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
@@ -403,24 +405,39 @@ function catWalk(){
   //reset the for the legs
   clearFrame();
   //frame0
-  theta[leftLowerArmId] = theta[rightLowerArmId] = 20;
-  theta[rightLowerLegId] = theta[leftLowerLegId] = 30;
-  theta[leftUpperArmId] = theta[rightUpperArmId] = 175;
-  theta[leftUpperLegId] = theta[rightUpperLegId] = 165;
   for(i = 0 ; theta.length>i ; i++){
     frames.push(theta[i]);
-  }
+  }/*
+  theta[leftLowerArmId] = theta[rightLowerArmId] = 20;
+  theta[rightLowerLegId] = theta[leftLowerLegId] = 30;
+  theta[leftUpperArmId] =175; theta[rightUpperArmId] = 175;
+  theta[leftUpperLegId] =165; theta[rightUpperLegId] = 165;
+  for(i = 0 ; theta.length>i ; i++){
+    frames.push(theta[i]);
+  }*/
   //frame1
-  for(j = 0; j!=2; j++){
-    theta[leftUpperArmId]+=26;
-    theta[leftLowerArmId]-=26;
+  for(j = 1; j!=2; j++){
+    theta[leftUpperArmId]+=25;
+    theta[leftLowerArmId]-=25;
+    theta[rightUpperArmId]-=25;
+    theta[rightLowerArmId]+=25;
+    theta[rightUpperLegId]+=15;
+    theta[rightLowerLegId]-=15;
+    theta[leftUpperLegId]-=15;
+    theta[leftLowerLegId]+=15;
     for(i = 0 ; theta.length>i ; i++){
       frames.push(theta[i]);
     }
   }
-  for(j = 2; j<3; j++){
-    theta[leftUpperArmId]-=26;
-    theta[leftLowerArmId]+=26;
+  for(j = 2; j<4; j++){
+    theta[leftUpperArmId]-=25;
+    theta[leftLowerArmId]+=25;
+    theta[rightUpperArmId]+=25;
+    theta[rightLowerArmId]-=25;
+    theta[rightUpperLegId]-=15;
+    theta[rightLowerLegId]+=15;
+    theta[leftUpperLegId]+=15;
+    theta[leftLowerLegId]-=15;
     //theta[]
     for(i = 0 ; theta.length>i ; i++){
       frames.push(theta[i]);
@@ -661,6 +678,10 @@ window.onload = function init() {
 		loadNewFrames=true;
 		firstTime= true;
 	}
+  document.getElementById("moveLeft").onclick = function() {
+    left = 3.0;
+    initNodes(torsoId);
+  }
     for(i=0; i<numNodes; i++) initNodes(i);
 
     render();
