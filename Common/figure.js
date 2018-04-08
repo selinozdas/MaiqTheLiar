@@ -71,9 +71,11 @@ var numNodes = 16;
 var numAngles = 17; //is this necessary?
 var angle = 0;
 
+var tail = false;
+
 var frames = [];
 
-var theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
+var theta = [330, 0, 175, 20, 175, 20, 165, 30, 165, 30, 0, 180, 0, 90, -90];
 
 var numVertices = 24;
 
@@ -380,7 +382,7 @@ function cube()
 function saveFrame(){
 	for(i=0; i < theta.length ; i++)
 		frames.push(theta[i]);
-	
+
 	window.alert("Frame is saved");
 }
 function clearFrame(){
@@ -397,11 +399,43 @@ function saveFramesToFile(){
     a.download = 'frames.txt';
     a.click();
 }
+function catWalk(){
+  //reset the for the legs
+  saveFrame();
+  theta[leftLowerArmId] = theta[rightLowerArmId] = 20;
+  theta[rightLowerLegId] = theta[leftLowerLegId] = 30;
+  theta[leftUpperArmId] = theta[rightUpperArmId] = 175;
+  theta[leftUpperLegId] = theta[rightUpperLegId] = 165;
+  //save walking Frames
+  saveFrame();
+//for(var moveNu = 10; moveNu>0; moveNu--){
+      theta[leftUpperArmId] += 10;
+      theta[leftLowerArmId] += 10;
+    //  theta[rightUpperArmId] += 1;
+    //  theta[rightUpperLegId] += 0.2;
+      saveFrame();
+      theta[leftUpperArmId] += 10;
+      theta[leftLowerArmId] += 10;
+      saveFrame();
+      theta[leftUpperArmId] += 10;
+      theta[leftLowerArmId] += 10;
+      saveFrame();
+}
+
+/*function tailOrSwift(){
+  while(tail){
+    if(theta[tailUpperId] < 180){
+      theta[tailUpperId] +=10;
+      initNodes(tailUpperId);
+    }
+    if(theta[tailUpper > -180])
+  }
+}*/
 //TODO animate
 //TODO walk
 //TODO jump
 function loadFramesFromFile(file){
-	//clear current frame 
+	//clear current frame
 	frames=[];
 	//read file
 	var reader = new FileReader();
@@ -410,7 +444,7 @@ function loadFramesFromFile(file){
             window.alert(this.result);
             frameM = [];
             var thetas = this.result.split(' ');
-            
+
             for (var degree = 0; degree < thetas.length-1; degree++) {
                 var inttheta = parseInt(thetas[degree]);
 				frames.push(inttheta);
@@ -424,7 +458,7 @@ var counter = 0;
 var difference=[];
 var currentFrame = [];
 function animate() {
-	
+
 	//get frame
 	if(loadNewFrames){
 		currentFrame=[];
@@ -445,7 +479,7 @@ function animate() {
 			loadNewFrames= true;
 			firstTime=false;
 		}
-		
+
 	}
 	else
 	{
@@ -453,6 +487,10 @@ function animate() {
 		{
 			for(l = 0 ; l<theta.length; l++){
 				difference[l] = currentFrame[l] - theta[l];
+        if (difference [l]>180)
+        {
+          difference[l]=-(360-difference[l]);
+        }
 			}
 			calculated=true;
 		}
@@ -465,7 +503,7 @@ function animate() {
 		}
 		counter++;
 	}
-	
+
 	if (counter>100)
 	{
 		if(index>=frames.length-1)
@@ -604,6 +642,9 @@ window.onload = function init() {
 	document.getElementById("loadFile").onchange = function() {
 		loadFramesFromFile(this.files[0]);
 	}
+  document.getElementById("walkButton").onclick = function() {
+    catWalk();
+  }
 	document.getElementById("animateButton").onclick = function() {
 		animationPlays= true;
 		loadNewFrames=true;
