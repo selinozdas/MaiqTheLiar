@@ -412,7 +412,8 @@ function loadFramesFromFile(file){
             var thetas = this.result.split(' ');
             
             for (var degree = 0; degree < thetas.length-1; degree++) {
-                frames.push(thetas[degree]);
+                var inttheta = parseInt(thetas[degree]);
+				frames.push(inttheta);
             }
         };
         reader.readAsText(file);
@@ -427,12 +428,14 @@ function animate() {
 	//get frame
 	if(loadNewFrames){
 		currentFrame=[];
+		difference=[];
 		for(j = 0; j < theta.length; j++)
 		{
 			currentFrame.push(frames[index]);
 			index++;
 		}
 		loadNewFrames = false;
+		calculated=false;
 	}
 	if(firstTime)
 	{
@@ -455,20 +458,23 @@ function animate() {
 		}
 		for(l = 0 ; l<theta.length; l++){
 			if(difference[l]!=0)
+			{
 				theta[l] = parseInt(theta[l]) + difference[l]/100.0;
+			}
 			initNodes(l);
 		}
 		counter++;
 	}
-	if(counter>100 && index>=frames.length-1)
+	
+	if (counter>100)
 	{
-		currentFrame=[];
-		animationPlays = false;
-		index=0;
-		counter = 0;
-	}
-	else if (counter>100)
-	{
+		if(index>=frames.length-1)
+		{
+			currentFrame=[];
+			animationPlays = false;
+			index=0;
+			counter = 0;
+		}
 		currentFrame=[];
 		loadNewFrames = true;
 		counter=0;
@@ -600,6 +606,7 @@ window.onload = function init() {
 	}
 	document.getElementById("animateButton").onclick = function() {
 		animationPlays= true;
+		loadNewFrames=true;
 		firstTime= true;
 	}
     for(i=0; i<numNodes; i++) initNodes(i);
@@ -611,7 +618,6 @@ window.onload = function init() {
 var render = function() {
 		if(animationPlays)
 		{
-			loadNewFrames=true;
 			animate();
 		}
         gl.clear( gl.COLOR_BUFFER_BIT );
