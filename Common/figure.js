@@ -418,7 +418,7 @@ function catWalk(){
       frames.push(theta[i]);
     }
   }
-  for(j = 2; j!=4; j++){
+  for(j = 2; j<3; j++){
     theta[leftUpperArmId]-=26;
     theta[leftLowerArmId]+=26;
     //theta[]
@@ -506,14 +506,14 @@ function animate() {
     for(l = 0 ; l<theta.length; l++){
       if(difference[l]!=0)
       {
-        theta[l] = theta[l] + difference[l]/100.0;
+        theta[l] = theta[l] + difference[l]/40.0;
       }
       initNodes(l);
     }
     counter++;
   }
 
-  if (counter>100)
+  if (counter>40)
   {
     if(index>=frames.length-1)
     {
