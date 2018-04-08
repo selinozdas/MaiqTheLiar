@@ -383,11 +383,11 @@ function saveFrame(){
 	for(i=0; i < theta.length ; i++)
 		frames.push(theta[i]);
 
-	window.alert("Frame is saved");
+//	window.alert("Frame is saved");
 }
 function clearFrame(){
 	frames=[];
-	window.alert("Frames are cleared");
+	//window.alert("Frames are cleared");
 }
 
 function saveFramesToFile(){
@@ -401,25 +401,33 @@ function saveFramesToFile(){
 }
 function catWalk(){
   //reset the for the legs
-  saveFrame();
+  clearFrame();
+  //frame0
   theta[leftLowerArmId] = theta[rightLowerArmId] = 20;
   theta[rightLowerLegId] = theta[leftLowerLegId] = 30;
   theta[leftUpperArmId] = theta[rightUpperArmId] = 175;
   theta[leftUpperLegId] = theta[rightUpperLegId] = 165;
-  //save walking Frames
-  saveFrame();
-//for(var moveNu = 10; moveNu>0; moveNu--){
-      theta[leftUpperArmId] += 10;
-      theta[leftLowerArmId] += 10;
-    //  theta[rightUpperArmId] += 1;
-    //  theta[rightUpperLegId] += 0.2;
-      saveFrame();
-      theta[leftUpperArmId] += 10;
-      theta[leftLowerArmId] += 10;
-      saveFrame();
-      theta[leftUpperArmId] += 10;
-      theta[leftLowerArmId] += 10;
-      saveFrame();
+  for(i = 0 ; theta.length>i ; i++){
+    frames.push(theta[i]);
+  }
+  //frame1
+  for(j = 0; j!=2; j++){
+    theta[leftUpperArmId]+=26;
+    theta[leftLowerArmId]-=26;
+    for(i = 0 ; theta.length>i ; i++){
+      frames.push(theta[i]);
+    }
+  }
+  for(j = 2; j!=4; j++){
+    theta[leftUpperArmId]-=26;
+    theta[leftLowerArmId]+=26;
+    //theta[]
+    for(i = 0 ; theta.length>i ; i++){
+      frames.push(theta[i]);
+    }
+  }
+  infiniteloop = true;
+  //frame
 }
 
 /*function tailOrSwift(){
@@ -459,67 +467,70 @@ var difference=[];
 var currentFrame = [];
 function animate() {
 
-	//get frame
-	if(loadNewFrames){
-		currentFrame=[];
-		difference=[];
-		for(j = 0; j < theta.length; j++)
-		{
-			currentFrame.push(frames[index]);
-			index++;
-		}
-		loadNewFrames = false;
-		calculated=false;
-	}
-	if(firstTime)
-	{
-		for(k = 0; k < currentFrame.length; k++){
-			theta[k] = currentFrame[k];
-			initNodes(k);
-			loadNewFrames= true;
-			firstTime=false;
-		}
+  //get frame
+  if(loadNewFrames){
+    currentFrame=[];
+    difference=[];
+    for(j = 0; j < theta.length; j++)
+    {
+      currentFrame.push(frames[index]);
+      index++;
+    }
+    loadNewFrames = false;
+    calculated=false;
+  }
+  if(firstTime)
+  {
+    for(k = 0; k < currentFrame.length; k++){
+      theta[k] = currentFrame[k];
+      initNodes(k);
+      loadNewFrames= true;
+      firstTime=false;
+    }
 
-	}
-	else
-	{
-		if(!calculated)
-		{
-			for(l = 0 ; l<theta.length; l++){
-				difference[l] = currentFrame[l] - theta[l];
+  }
+  else
+  {
+    if(!calculated)
+    {
+      for(l = 0 ; l<theta.length; l++){
+        difference[l] = currentFrame[l] - theta[l];
         if (difference [l]>180)
-        {
-          difference[l]=-(360-difference[l]);
-        }
-			}
-			calculated=true;
-		}
-		for(l = 0 ; l<theta.length; l++){
-			if(difference[l]!=0)
-			{
-				theta[l] = parseInt(theta[l]) + difference[l]/100.0;
-			}
-			initNodes(l);
-		}
-		counter++;
-	}
+          difference[l]=-(360-difference[l])%360;
+        if (difference[l]<-180)
+          difference[l]=(360+difference[l])%360;
 
-	if (counter>100)
-	{
-		if(index>=frames.length-1)
-		{
-			currentFrame=[];
-			animationPlays = false;
-			index=0;
-			counter = 0;
-		}
-		currentFrame=[];
-		loadNewFrames = true;
-		counter=0;
-	}
+      }
+      calculated=true;
+    }
+    for(l = 0 ; l<theta.length; l++){
+      if(difference[l]!=0)
+      {
+        theta[l] = theta[l] + difference[l]/100.0;
+      }
+      initNodes(l);
+    }
+    counter++;
+  }
+
+  if (counter>100)
+  {
+    if(index>=frames.length-1)
+    {
+      currentFrame=[];
+      if(infiniteloop==false)
+        animationPlays = false;
+      index=0;
+      counter = 0;
+      for(i =0; i< theta.length; i++)
+        if(theta[i]<0)
+          theta[i]=360+ theta[i];
+    }
+    currentFrame=[];
+    loadNewFrames = true;
+    counter=0;
+  }
 }
-
-
 window.onload = function init() {
 
     canvas = document.getElementById( "gl-canvas" );
