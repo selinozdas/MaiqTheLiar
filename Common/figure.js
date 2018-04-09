@@ -72,7 +72,8 @@ var numNodes = 16;
 var numAngles = 17; //is this necessary?
 var angle = 0;
 
-var tail = false;
+var jump = false;
+var fall = false;
 var horizontalSelect ;
 var verticalSelect ;
 var frames = [];
@@ -402,20 +403,10 @@ function saveFramesToFile(){
 }
 function catWalk(){
   if(walk){
-  //reset the for the legs
   clearFrame();
-  //frame0
   for(i = 0 ; theta.length>i ; i++){
     frames.push(theta[i]);
-  }/*
-  theta[leftLowerArmId] = theta[rightLowerArmId] = 20;
-  theta[rightLowerLegId] = theta[leftLowerLegId] = 30;
-  theta[leftUpperArmId] =175; theta[rightUpperArmId] = 175;
-  theta[leftUpperLegId] =165; theta[rightUpperLegId] = 165;
-  for(i = 0 ; theta.length>i ; i++){
-    frames.push(theta[i]);
-  }*/
-  //frame1
+  }
   for(j = 1; j!=2; j++){
     theta[leftUpperArmId]+=20;
     theta[leftLowerArmId]-=20;
@@ -442,8 +433,6 @@ function catWalk(){
     theta[leftUpperLegId]+=20;
     theta[leftLowerLegId]-=20;
     theta[tailUpperId]-=20;
-    //theta[mouthUpperId]+=15;
-    //theta[mouthLowerId]+=15;
     for(i = 0 ; theta.length>i ; i++){
       frames.push(theta[i]);
     }
@@ -458,8 +447,94 @@ else {animationPlays = false;
      frames.push(theta[i]);
    }}
 }
+function jumpBabe(){
+  if(jump){
+  clearFrame();
+  for(i = 0 ; theta.length>i ; i++){
+    frames.push(theta[i]);
+  }
+  for(j = 1; j!=2; j++){
+    theta[leftUpperArmId]-=20;
+    theta[leftLowerArmId]+=20;
+    theta[rightUpperArmId]-=20;
+    theta[rightLowerArmId]+=20;
+    theta[rightUpperLegId]-=20;
+    theta[rightLowerLegId]+=20;
+    theta[leftUpperLegId]-=20;
+    theta[leftLowerLegId]+=20;
+    for(i = 0 ; theta.length>i ; i++){
+      frames.push(theta[i]);
+    }
+  }
+  for(j = 2; j<4; j++){
+    theta[leftUpperArmId]+=20;
+    theta[leftLowerArmId]-=20;
+    theta[rightUpperArmId]+=20;
+    theta[rightLowerArmId]-=20;
+    theta[rightUpperLegId]+=20;
+    theta[rightLowerLegId]-=20;
+    theta[leftUpperLegId]+=20;
+    theta[leftLowerLegId]-=20;
+    for(i = 0 ; theta.length>i ; i++){
+      frames.push(theta[i]);
+    }
+  }
+  infiniteloop = false;
+  animationPlays = true;
+  for(i = 0 ; theta.length>i ; i++)
+  {
+    frames.push(theta[i]);
+  }
+}
 
-function jump(){}
+function fallBabe(){
+  if(fall){
+    clearFrame();
+    for(i = 0 ; theta.length>i ; i++)
+    {
+    frames.push(theta[i]);
+  }
+  for(j = 1; j!=2; j++){
+    theta[leftUpperArmId]+=20;
+    theta[leftLowerArmId]-=20;
+    theta[rightUpperArmId]+=20;
+    theta[rightLowerArmId]-=20;
+    theta[rightUpperLegId]+=20;
+    theta[rightLowerLegId]-=20;
+    theta[leftUpperLegId]+=20;
+    theta[leftLowerLegId]-=20;
+    for(i = 0 ; theta.length>i ; i++){
+      frames.push(theta[i]);
+    }
+  }
+  for(j = 2; j<4; j++)
+  {
+    theta[leftUpperArmId]-=20;
+    theta[leftLowerArmId]+=20;
+    theta[rightUpperArmId]-=20;
+    theta[rightLowerArmId]+=20;
+    theta[rightUpperLegId]-=20;
+    theta[rightLowerLegId]+=20;
+    theta[leftUpperLegId]-=20;
+    theta[leftLowerLegId]+=20;
+    for(i = 0 ; theta.length>i ; i++)
+    {
+      frames.push(theta[i]);
+    }
+  }
+  infiniteloop = false;
+  animationPlays = true;
+
+}
+   theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
+
+   for(i = 0 ; theta.length>i ; i++)
+   {
+     frames.push(theta[i]);
+   }
+
+}
+}
 //TODO animate
 //TODO walk
 //TODO jump
@@ -540,8 +615,13 @@ function animate() {
     if(index>=frames.length-1)
     {
       currentFrame=[];
-      if(infiniteloop==false)
+      if(infiniteloop==false){
+        if (jump) {jump=false;fall=true;}
+        else if (fall) {jump=false;fall=false;}
         animationPlays = false;
+        if(fall==true)
+          animationPlays=true;
+      }
       index=0;
       counter = 0;
       for(i =0; i< theta.length; i++)
@@ -555,6 +635,14 @@ function animate() {
 }
 
 function moveItUp(){
+  myVerti += 0.002;
+  gl.uniform1f(verticalSelect,myVerti);
+}
+function moveItDown(){
+  myVerti -= 0.002;
+  gl.uniform1f(verticalSelect,myVerti);
+}
+function moveItLeft(){
   myHori += 0.001;
   gl.uniform1f(horizontalSelect,myHori);
 }
@@ -686,9 +774,13 @@ window.onload = function init() {
     walk=!walk;
     catWalk();
   }
+  document.getElementById("jumpButton").onclick = function() {
+    jump =!jump;
+    jumpBabe();
+  }
   document.getElementById("animateButton").onclick = function() {
     if(frames.length != 0)
-      animationPlays= (!animationPlays)be;
+      animationPlays= (!animationPlays);
       loadNewFrames=true;
       firstTime= true;
   }
@@ -721,7 +813,15 @@ var render = function() {
     if(animationPlays)
     {
       animate();
-      if(walk) moveItUp();
+      if(walk) moveItLeft();
+      if(fall) {
+        moveItDown();
+        moveItLeft();
+      }
+      if(jump){
+        moveItLeft();
+        moveItUp();
+      }
     }
         gl.clear( gl.COLOR_BUFFER_BIT );
         traverse(torsoId);
