@@ -609,65 +609,65 @@ window.onload = function init() {
    myVerti=0;
 
         document.getElementById("slider0").onchange = function() {
-        theta[torsoId ] = event.srcElement.value;
+        theta[torsoId ] = parseInt(event.srcElement.value);
         initNodes(torsoId);
     };
         document.getElementById("slider1").onchange = function() {
-        theta[head1Id] = event.srcElement.value;
+        theta[head1Id] = parseInt(event.srcElement.value);
         initNodes(head1Id);
     };
 
     document.getElementById("slider2").onchange = function() {
-         theta[leftUpperArmId] = event.srcElement.value;
+         theta[leftUpperArmId] = parseInt(event.srcElement.value);
          initNodes(leftUpperArmId);
     };
     document.getElementById("slider3").onchange = function() {
-         theta[leftLowerArmId] =  event.srcElement.value;
+         theta[leftLowerArmId] =  parseInt(event.srcElement.value);
          initNodes(leftLowerArmId);
     };
 
         document.getElementById("slider4").onchange = function() {
-        theta[rightUpperArmId] = event.srcElement.value;
+        theta[rightUpperArmId] = parseInt(event.srcElement.value);
         initNodes(rightUpperArmId);
     };
     document.getElementById("slider5").onchange = function() {
-         theta[rightLowerArmId] =  event.srcElement.value;
+         theta[rightLowerArmId] =  parseInt(event.srcElement.value);
          initNodes(rightLowerArmId);
     };
         document.getElementById("slider6").onchange = function() {
-        theta[leftUpperLegId] = event.srcElement.value;
+        theta[leftUpperLegId] = parseInt(event.srcElement.value);
         initNodes(leftUpperLegId);
     };
     document.getElementById("slider7").onchange = function() {
-         theta[leftLowerLegId] = event.srcElement.value;
+         theta[leftLowerLegId] = parseInt(event.srcElement.value);
          initNodes(leftLowerLegId);
     };
     document.getElementById("slider8").onchange = function() {
-         theta[rightUpperLegId] =  event.srcElement.value;
+         theta[rightUpperLegId] =  parseInt(event.srcElement.value);
          initNodes(rightUpperLegId);
     };
         document.getElementById("slider9").onchange = function() {
-        theta[rightLowerLegId] = event.srcElement.value;
+        theta[rightLowerLegId] = parseInt(event.srcElement.value);
         initNodes(rightLowerLegId);
     };
     document.getElementById("slider10").onchange = function() {
-         theta[head2Id] = event.srcElement.value;
+         theta[head2Id] = parseInt(event.srcElement.value);
          initNodes(head2Id);
     };
     document.getElementById("slider11").onchange = function() {
-         theta[tailUpperId] = event.srcElement.value;
+         theta[tailUpperId] = parseInt(event.srcElement.value);
          initNodes(tailUpperId);
     };
     document.getElementById("slider12").onchange = function() {
-         theta[tailLowerId] = event.srcElement.value;
+         theta[tailLowerId] = parseInt(event.srcElement.value);
          initNodes(tailLowerId);
     };
     document.getElementById("slider13").onchange = function() {
-         theta[mouthUpperId] = event.srcElement.value;
+         theta[mouthUpperId] = parseInt(event.srcElement.value);
          initNodes(mouthUpperId);
     };
     document.getElementById("slider14").onchange = function() {
-         theta[mouthLowerId] = event.srcElement.value;
+         theta[mouthLowerId] = parseInt(event.srcElement.value);
          initNodes(mouthLowerId);
     };
   document.getElementById("saveButton").onclick = function() {
@@ -688,7 +688,7 @@ window.onload = function init() {
   }
   document.getElementById("animateButton").onclick = function() {
     if(frames.length != 0)
-      animationPlays= (!animationPlays);
+      animationPlays= (!animationPlays)be;
       loadNewFrames=true;
       firstTime= true;
   }
