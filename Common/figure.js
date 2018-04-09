@@ -571,9 +571,10 @@ window.onload = function init() {
 
     gl.uniformMatrix4fv(gl.getUniformLocation( program, "modelViewMatrix"), false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( gl.getUniformLocation( program, "projectionMatrix"), false, flatten(projectionMatrix) );
-
+	var horizontalSelect = gl.getUniformLocation(program, "horizontal");
+	var verticalSelect = gl.getUniformLocation(program, "vertical");
     modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix")
-
+	
     cube();
 
     vBuffer = gl.createBuffer();
@@ -592,7 +593,8 @@ window.onload = function init() {
     var vColor = gl.getAttribLocation( program, "vColor" );
     gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vColor );
-
+	var myHori=0;
+	var myVerti=0;
 
         document.getElementById("slider0").onchange = function() {
         theta[torsoId ] = event.srcElement.value;
@@ -676,9 +678,25 @@ window.onload = function init() {
 		loadNewFrames=true;
 		firstTime= true;
 	}
-  document.getElementById("moveLeft").onclick = function() {
-    left = 1.0;
+  document.getElementById("moveRight").onclick = function() {
+    myHori += 0.1;
+	gl.uniform1f(horizontalSelect,myHori);
   }
+    document.getElementById("moveLeft").onclick = function() {
+    myHori -= 0.1;
+	gl.uniform1f(horizontalSelect,myHori);
+  }
+  document.getElementById("moveUp").onclick = function() {
+	myVerti += 0.1;
+	gl.uniform1f(verticalSelect,myVerti);
+  }
+  document.getElementById("moveDown").onclick = function() {
+	myVerti -= 0.1;
+	gl.uniform1f(verticalSelect,myVerti);
+  
+  }
+	
+	gl.uniform1f(verticalSelect,myVerti);
     for(i=0; i<numNodes; i++) initNodes(i);
 
     render();

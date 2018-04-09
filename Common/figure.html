@@ -8,11 +8,12 @@ varying vec4 fColor;
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
-
+uniform float horizontal;
+uniform float vertical;
 void main()
 {
     fColor = vColor;
-    gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+    gl_Position = projectionMatrix * modelViewMatrix * vPosition+ vec4(horizontal,vertical,0,0);
 }
 </script>
 
@@ -138,8 +139,10 @@ mouthLower 180 <input id="slide" type="range"
 <button id="saveButton"> Save Frame </button>
 <button id="clearButton"> Clear All Frames </button>
 <button id="saveFileButton"> Save Frames to File </button>
-<button id="moveLeft"> left Frame </button>
-
+<button id="moveLeft"> left  </button>
+<button id="moveRight"> right </button>
+<button id="moveUp"> up </button>
+<button id="moveDown"> down </button>
 <input type="file" id="loadFile" />
 <button id="animateButton"> Animate Frames</button>
 <body>
