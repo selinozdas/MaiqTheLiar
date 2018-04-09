@@ -43,7 +43,7 @@ var rightEarId = 15;
 var leftEarId = 16;
 
 var colors= [];
-
+var walk = false;
 var torsoHeight = 2.0;
 var torsoWidth = 5.0;
 var upperArmHeight = 3.0;
@@ -72,9 +72,10 @@ var numAngles = 17; //is this necessary?
 var angle = 0;
 
 var tail = false;
-
+var horizontalSelect ;
+var verticalSelect ;
 var frames = [];
-
+var myHori, myVerti;
 var theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
 
 var numVertices = 24;
@@ -370,8 +371,7 @@ function quad(a, b, c, d) {
 }
 
 
-function cube()
-{
+function cube(){
     quad( 1, 0, 3, 2 );
     quad( 2, 3, 7, 6 );
     quad( 3, 0, 4, 7 );
@@ -379,15 +379,15 @@ function cube()
     quad( 4, 5, 6, 7 );
     quad( 5, 4, 0, 1 );
 }
+
 function saveFrame(){
 	for(i=0; i < theta.length ; i++)
 		frames.push(theta[i]);
-
-//	window.alert("Frame is saved");
 }
+
 function clearFrame(){
 	frames=[];
-	//window.alert("Frames are cleared");
+
 }
 
 function saveFramesToFile(){
@@ -415,34 +415,42 @@ function catWalk(){
   }*/
   //frame1
   for(j = 1; j!=2; j++){
-    theta[leftUpperArmId]+=25;
-    theta[leftLowerArmId]-=25;
-    theta[rightUpperArmId]-=25;
-    theta[rightLowerArmId]+=25;
-    theta[rightUpperLegId]+=15;
-    theta[rightLowerLegId]-=15;
-    theta[leftUpperLegId]-=15;
-    theta[leftLowerLegId]+=15;
+    theta[leftUpperArmId]+=20;
+    theta[leftLowerArmId]-=20;
+    theta[rightUpperArmId]-=20;
+    theta[rightLowerArmId]+=20;
+    theta[rightUpperLegId]+=20;
+    theta[rightLowerLegId]-=20;
+    theta[leftUpperLegId]-=20;
+    theta[leftLowerLegId]+=20;
+    theta[tailUpperId]+=20;
+    theta[mouthUpperId]-=15;
+    theta[mouthLowerId]-=15;
     for(i = 0 ; theta.length>i ; i++){
       frames.push(theta[i]);
     }
   }
   for(j = 2; j<4; j++){
-    theta[leftUpperArmId]-=25;
-    theta[leftLowerArmId]+=25;
-    theta[rightUpperArmId]+=25;
-    theta[rightLowerArmId]-=25;
-    theta[rightUpperLegId]-=15;
-    theta[rightLowerLegId]+=15;
-    theta[leftUpperLegId]+=15;
-    theta[leftLowerLegId]-=15;
-    //theta[]
+    theta[leftUpperArmId]-=20;
+    theta[leftLowerArmId]+=20;
+    theta[rightUpperArmId]+=20;
+    theta[rightLowerArmId]-=20;
+    theta[rightUpperLegId]-=20;
+    theta[rightLowerLegId]+=20;
+    theta[leftUpperLegId]+=20;
+    theta[leftLowerLegId]-=20;
+    theta[tailUpperId]-=20;
+    //theta[mouthUpperId]+=15;
+    //theta[mouthLowerId]+=15;
     for(i = 0 ; theta.length>i ; i++){
       frames.push(theta[i]);
     }
   }
   infiniteloop = true;
-  //frame
+
+  //for(j=1;j<4;j++){
+
+  //}
 }
 
 /*function tailOrSwift(){
@@ -476,6 +484,7 @@ function loadFramesFromFile(file){
         reader.readAsText(file);
 	//push to frames array
 }
+
 var index= 0;
 var counter = 0;
 var difference=[];
@@ -523,6 +532,7 @@ function animate() {
       {
         theta[l] = theta[l] + difference[l]/40.0;
       }
+
       initNodes(l);
     }
     counter++;
@@ -545,6 +555,11 @@ function animate() {
     loadNewFrames = true;
     counter=0;
   }
+}
+
+function moveItUp(){
+  myHori += 0.001;
+  gl.uniform1f(horizontalSelect,myHori);
 }
 window.onload = function init() {
 
@@ -571,10 +586,10 @@ window.onload = function init() {
 
     gl.uniformMatrix4fv(gl.getUniformLocation( program, "modelViewMatrix"), false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( gl.getUniformLocation( program, "projectionMatrix"), false, flatten(projectionMatrix) );
-	var horizontalSelect = gl.getUniformLocation(program, "horizontal");
-	var verticalSelect = gl.getUniformLocation(program, "vertical");
+	 horizontalSelect = gl.getUniformLocation(program, "horizontal");
+	 verticalSelect = gl.getUniformLocation(program, "vertical");
     modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix")
-	
+
     cube();
 
     vBuffer = gl.createBuffer();
@@ -593,8 +608,8 @@ window.onload = function init() {
     var vColor = gl.getAttribLocation( program, "vColor" );
     gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vColor );
-	var myHori=0;
-	var myVerti=0;
+	 myHori=0;
+	 myVerti=0;
 
         document.getElementById("slider0").onchange = function() {
         theta[torsoId ] = event.srcElement.value;
@@ -671,31 +686,32 @@ window.onload = function init() {
 		loadFramesFromFile(this.files[0]);
 	}
   document.getElementById("walkButton").onclick = function() {
+    walk=true;
     catWalk();
   }
 	document.getElementById("animateButton").onclick = function() {
-		animationPlays= true;
+		animationPlays= (!animationPlays);
 		loadNewFrames=true;
 		firstTime= true;
 	}
   document.getElementById("moveRight").onclick = function() {
     myHori += 0.1;
-	gl.uniform1f(horizontalSelect,myHori);
+  	gl.uniform1f(horizontalSelect,myHori);
   }
     document.getElementById("moveLeft").onclick = function() {
     myHori -= 0.1;
-	gl.uniform1f(horizontalSelect,myHori);
+	  gl.uniform1f(horizontalSelect,myHori);
   }
   document.getElementById("moveUp").onclick = function() {
-	myVerti += 0.1;
-	gl.uniform1f(verticalSelect,myVerti);
+    myVerti += 0.1;
+    gl.uniform1f(verticalSelect,myVerti);
   }
   document.getElementById("moveDown").onclick = function() {
-	myVerti -= 0.1;
-	gl.uniform1f(verticalSelect,myVerti);
-  
+	   myVerti -= 0.1;
+	   gl.uniform1f(verticalSelect,myVerti);
+
   }
-	
+
 	gl.uniform1f(verticalSelect,myVerti);
     for(i=0; i<numNodes; i++) initNodes(i);
 
@@ -707,6 +723,7 @@ var render = function() {
 		if(animationPlays)
 		{
 			animate();
+      if(walk) moveItUp();
 		}
         gl.clear( gl.COLOR_BUFFER_BIT );
         traverse(torsoId);
