@@ -687,7 +687,7 @@ window.onload = function init() {
     catWalk();
   }
 	document.getElementById("animateButton").onclick = function() {
-		animationPlays= (!animationPlays);
+		animationPlays= true;
 		loadNewFrames=true;
 		firstTime= true;
 	}
