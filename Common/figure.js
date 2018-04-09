@@ -400,6 +400,7 @@ function saveFramesToFile(){
     a.click();
 }
 function catWalk(){
+  if(walk){
   //reset the for the legs
   clearFrame();
   //frame0
@@ -447,21 +448,11 @@ function catWalk(){
     }
   }
   infiniteloop = true;
-
-  //for(j=1;j<4;j++){
-
-  //}
+  animationPlays = true;
+}
+else {animationPlays = false; clearFrame();}
 }
 
-/*function tailOrSwift(){
-  while(tail){
-    if(theta[tailUpperId] < 180){
-      theta[tailUpperId] +=10;
-      initNodes(tailUpperId);
-    }
-    if(theta[tailUpper > -180])
-  }
-}*/
 //TODO animate
 //TODO walk
 //TODO jump
@@ -686,7 +677,7 @@ window.onload = function init() {
 		loadFramesFromFile(this.files[0]);
 	}
   document.getElementById("walkButton").onclick = function() {
-    walk=true;
+    walk=!walk;
     catWalk();
   }
 	document.getElementById("animateButton").onclick = function() {
