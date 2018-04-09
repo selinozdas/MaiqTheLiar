@@ -687,9 +687,10 @@ window.onload = function init() {
     catWalk();
   }
   document.getElementById("animateButton").onclick = function() {
-    animationPlays= (!animationPlays);
-    loadNewFrames=true;
-    firstTime= true;
+    if(frames.length != 0)
+      animationPlays= (!animationPlays);
+      loadNewFrames=true;
+      firstTime= true;
   }
   document.getElementById("moveRight").onclick = function() {
     myHori += 0.1;
