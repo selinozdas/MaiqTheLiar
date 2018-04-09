@@ -1,4 +1,10 @@
+/**
+CS 465 2nd Assignment
+Selin Özdaş
+Berke Soysal
 
+3d cat with animation
+*/
 
 var canvas;
 var gl;
@@ -10,6 +16,7 @@ var modelViewMatrix;
 var instanceMatrix;
 var infiniteloop=false;
 var modelViewMatrixLoc;
+
 
 var vertices = [
 
@@ -23,7 +30,7 @@ var vertices = [
     vec4( 0.5, -0.5, -0.5, 1.0 )
 ];
 
-
+//Setting the Id's of body parts
 var torsoId = 0;
 var headId  = 1;
 var head1Id = 1;
@@ -44,7 +51,10 @@ var rightEarId = 15;
 var leftEarId = 16;
 
 var colors= [];
+//Flag for walk anim
 var walk = false;
+
+//Setting the height and width of body parts
 var torsoHeight = 2.0;
 var torsoWidth = 5.0;
 var upperArmHeight = 3.0;
@@ -65,19 +75,23 @@ var mouthUpperHeigth = 1.0;
 var mouthLowerHeight = 1.0;
 var mouthUpperWidth = 0.7;
 var mouthLowerWidth = 0.3;
+
+//Flags for animaton
 var animationPlays= false;
 var firstTime =false;
 var loadNewFrames =true;
 var numNodes = 16;
-var numAngles = 17; //is this necessary?
-var angle = 0;
-
 var jump = false;
 var fall = false;
+
+//Uniform variables
 var horizontalSelect ;
 var verticalSelect ;
-var frames = [];
 var myHori, myVerti;
+//The frame array for animation
+var frames = [];
+
+//Intial angles
 var theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
 
 var numVertices = 24;
@@ -117,7 +131,9 @@ function createNode(transform, render, sibling, child){
     return node;
 }
 
-
+/*
+Create nodes for each body part, give angle and translation
+*/
 function initNodes(Id) {
 
     var m = mat4();
@@ -226,7 +242,7 @@ function initNodes(Id) {
       break;
   }
 }
-
+//Translate through each body part and apply manipulations
 function traverse(Id) {
 
    if(Id == null) return;
@@ -237,7 +253,7 @@ function traverse(Id) {
     modelViewMatrix = stack.pop();
    if(figure[Id].sibling != null) traverse(figure[Id].sibling);
 }
-
+//Translate and scale for each body parts and draw them using trianglefan
 function torso() {
 
     instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5*torsoHeight, 0.0) );
@@ -360,7 +376,7 @@ var vertexColors = [
     vec4( 1.0, 1.0, 1.0, 1.0 ),  // white
     vec4( 0.0, 1.0, 1.0, 1.0 )   // cyan
 ];
-
+//Crete quads and give color
 function quad(a, b, c, d) {
    colors.push(vertexColors[a]);
      pointsArray.push(vertices[a]);
@@ -372,7 +388,7 @@ function quad(a, b, c, d) {
      pointsArray.push(vertices[d]);
 }
 
-
+//Create cube with quads
 function cube(){
     quad( 1, 0, 3, 2 );
     quad( 2, 3, 7, 6 );
@@ -381,17 +397,17 @@ function cube(){
     quad( 4, 5, 6, 7 );
     quad( 5, 4, 0, 1 );
 }
-
+//Save angles to the frame
 function saveFrame(){
   for(i=0; i < theta.length ; i++)
     frames.push(theta[i]);
 }
-
+//Empty frames
 function clearFrame(){
   frames=[];
 
 }
-
+//Saves frames to file
 function saveFramesToFile(){
   var stringFrames= "";
   for(i=0; i< frames.length; i++)
@@ -401,12 +417,14 @@ function saveFramesToFile(){
     a.download = 'frames.txt';
     a.click();
 }
+//PreDefined walk anim
 function catWalk(){
   if(walk){
   clearFrame();
   for(i = 0 ; theta.length>i ; i++){
     frames.push(theta[i]);
   }
+  //Proper positions for walk
   for(j = 1; j!=2; j++){
     theta[leftUpperArmId]+=20;
     theta[leftLowerArmId]-=20;
@@ -437,16 +455,21 @@ function catWalk(){
       frames.push(theta[i]);
     }
   }
+  //Open the flags for anim
   infiniteloop = true;
   animationPlays = true;
 }
-else {animationPlays = false;
-   theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
+//Reset pos
+else {
+	animationPlays = false;
+	theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
 
-   for(i = 0 ; theta.length>i ; i++){
-     frames.push(theta[i]);
-   }}
+	for(i = 0 ; theta.length>i ; i++){
+		frames.push(theta[i]);
+	}
+   }
 }
+//Jump the cat, same logic with walk
 function jumpBabe(){
   if(jump){
   clearFrame();
@@ -486,14 +509,14 @@ function jumpBabe(){
     frames.push(theta[i]);
   }
 }
-
+//Fall after jump
 function fallBabe(){
   if(fall){
     clearFrame();
     for(i = 0 ; theta.length>i ; i++)
     {
-    frames.push(theta[i]);
-  }
+		frames.push(theta[i]);
+	}
   for(j = 1; j!=2; j++){
     theta[leftUpperArmId]+=20;
     theta[leftLowerArmId]-=20;
@@ -524,8 +547,8 @@ function fallBabe(){
   }
   infiniteloop = false;
   animationPlays = true;
-
 }
+   
    theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
 
    for(i = 0 ; theta.length>i ; i++)
@@ -535,27 +558,26 @@ function fallBabe(){
 
 }
 }
-//TODO animate
-//TODO walk
-//TODO jump
+
+//Loading frames from file with FileReader
 function loadFramesFromFile(file){
   //clear current frame
   frames=[];
   //read file
   var reader = new FileReader();
   reader.onload = function (progressEvent) {
-            // Entire file
-            window.alert(this.result);
-            frameM = [];
-            var thetas = this.result.split(' ');
+        
+        window.alert(this.result);
+        frameM = [];
+        var thetas = this.result.split(' ');
 
-            for (var degree = 0; degree < thetas.length-1; degree++) {
-                var inttheta = parseInt(thetas[degree]);
+        for (var degree = 0; degree < thetas.length-1; degree++) {
+            var inttheta = parseInt(thetas[degree]);
         frames.push(inttheta);
-            }
-        };
-        reader.readAsText(file);
-  //push to frames array
+        }
+    };
+    reader.readAsText(file);
+  
 }
 
 var index= 0;
@@ -576,7 +598,7 @@ function animate() {
     loadNewFrames = false;
     calculated=false;
   }
-  if(firstTime)
+  if(firstTime) //if first time load the initial angles
   {
     for(k = 0; k < currentFrame.length; k++){
       theta[k] = currentFrame[k];
@@ -588,7 +610,7 @@ function animate() {
   }
   else
   {
-    if(!calculated)
+    if(!calculated) //Calculate the difference between two frame
     {
       for(l = 0 ; l<theta.length; l++){
         difference[l] = currentFrame[l] - theta[l];
@@ -603,20 +625,20 @@ function animate() {
     for(l = 0 ; l<theta.length; l++){
       if(difference[l]!=0)
       {
-        theta[l] = theta[l] + difference[l]/40.0;
+        theta[l] = theta[l] + difference[l]/40.0; //Get closer to next frame by 1/40 each display
       }
-      initNodes(l);
+      initNodes(l); //Recreate the nodes at new angles and pos
     }
     counter++;
   }
 
-  if (counter>40)
+  if (counter>40) //Next frame
   {
-    if(index>=frames.length-1)
+    if(index>=frames.length-1) //End anim
     {
       currentFrame=[];
       if(infiniteloop==false){
-        if (jump) {jump=false;fall=true;}
+        if (jump) {jump=false;fall=true;}   //If jump ends go to fall
         else if (fall) {jump=false;fall=false;}
         animationPlays = false;
         if(fall==true)
@@ -635,7 +657,7 @@ function animate() {
 }
 
 function moveItUp(){
-  myVerti += 0.002;
+  myVerti += 0.002; //Translation from vertexshader
   gl.uniform1f(verticalSelect,myVerti);
 }
 function moveItDown(){
@@ -786,6 +808,7 @@ window.onload = function init() {
   }
   document.getElementById("moveRight").onclick = function() {
     myHori += 0.1;
+	//Binding with uniformshaders
     gl.uniform1f(horizontalSelect,myHori);
   }
     document.getElementById("moveLeft").onclick = function() {
@@ -810,10 +833,11 @@ window.onload = function init() {
 
 
 var render = function() {
+	//animate when flag is true
     if(animationPlays)
     {
       animate();
-      if(walk) moveItLeft();
+      if(walk) moveItLeft(); //Translation with animation
       if(fall) {
         moveItDown();
         moveItLeft();
@@ -823,7 +847,7 @@ var render = function() {
         moveItUp();
       }
     }
-        gl.clear( gl.COLOR_BUFFER_BIT );
-        traverse(torsoId);
-        requestAnimFrame(render);
+    gl.clear( gl.COLOR_BUFFER_BIT );
+    traverse(torsoId);
+    requestAnimFrame(render);
 }
