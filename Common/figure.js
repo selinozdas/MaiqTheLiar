@@ -450,9 +450,15 @@ function catWalk(){
   infiniteloop = true;
   animationPlays = true;
 }
-else {animationPlays = false; clearFrame();}
+else {animationPlays = false;
+   theta = [330, 0, 180, 0, 180, 0, 180, 0, 180, 0, 0, 180, 0, 90, -90];
+
+   for(i = 0 ; theta.length>i ; i++){
+     frames.push(theta[i]);
+   }}
 }
 
+function jump(){}
 //TODO animate
 //TODO walk
 //TODO jump
